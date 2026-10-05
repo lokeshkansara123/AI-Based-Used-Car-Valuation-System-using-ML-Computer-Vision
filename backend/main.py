@@ -1,3 +1,6 @@
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -55,7 +58,7 @@ print("Using device:", device)
 # ==========================================
 
 preprocessor = joblib.load(
-    "car_preprocessor.pkl"
+    BASE_DIR/"car_preprocessor.pkl"
 )
 
 print("Preprocessor loaded")
@@ -68,7 +71,7 @@ print("Preprocessor loaded")
 xgb_model = XGBRegressor()
 
 xgb_model.load_model(
-    "car_price_xgb_model.json"
+    BASE_DIR/"car_price_xgb_model.json"
 )
 
 print("XGBoost model loaded")
@@ -89,7 +92,7 @@ cnn_model.fc = nn.Linear(
 
 cnn_model.load_state_dict(
     torch.load(
-        "resnet18_car_classifier_epoch10.pth",
+        BASE_DIR/"resnet18_car_classifier_epoch10.pth",
         map_location=device
     )
 )
@@ -105,7 +108,7 @@ print("CNN model loaded")
 # ==========================================
 
 class_names = joblib.load(
-    "car_class_names.pkl"
+    BASE_DIR/"car_class_names.pkl"
 )
 
 print("Class names loaded")
