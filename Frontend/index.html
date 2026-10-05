@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Car Valuation</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+
+        <div class="logo">
+            🚗 <span>CarValue AI</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#predict">Predict</a>
+            <a href="#about">About</a>
+        </div>
+
+    </nav>
+
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                ✨ AI Powered Car Valuation
+            </div>
+
+            <h1>
+                Know Your Car's
+                <span>True Value</span>
+            </h1>
+
+            <p>
+                Upload your car image and enter vehicle details.
+                Our AI model identifies the car and estimates
+                its used-market price.
+            </p>
+
+            <a href="#predict" class="hero-btn">
+                Start Valuation →
+            </a>
+
+        </div>
+
+        <div class="hero-car">
+            🚘
+        </div>
+
+    </section>
+
+
+    <!-- Prediction Section -->
+    <section class="prediction-section" id="predict">
+
+        <div class="section-heading">
+
+            <p class="small-title">
+                AI CAR VALUATION
+            </p>
+
+            <h2>
+                Get Your Car's Estimated Value
+            </h2>
+
+            <p>
+                Enter the details below to generate an AI-powered valuation.
+            </p>
+
+        </div>
+
+
+        <div class="main-card">
+
+            <!-- Image Upload -->
+            <div class="upload-area">
+
+                <h3>📷 Upload Car Image</h3>
+
+                <p>
+                    Upload a clear image of the car
+                </p>
+
+                <label for="carImage" class="upload-box">
+
+                    <div id="uploadContent">
+
+                        <div class="upload-icon">
+                            ⬆
+                        </div>
+
+                        <strong>
+                            Click to upload image
+                        </strong>
+
+                        <span>
+                            JPG, JPEG or PNG
+                        </span>
+
+                    </div>
+
+                    <img id="previewImage" alt="Car Preview">
+
+                </label>
+
+                <input
+                    type="file"
+                    id="carImage"
+                    accept="image/png,image/jpeg,image/jpg"
+                >
+
+            </div>
+
+
+            <!-- Form -->
+            <div class="form-area">
+
+                <h3>🚘 Vehicle Details</h3>
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+
+                        <label>Manufacturing Year</label>
+
+                        <input
+                            type="number"
+                            id="year"
+                            placeholder="1983 - 2026"
+                            min="1983"
+                            max="2026"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>KM Driven</label>
+
+                        <input
+                            type="number"
+                            id="km_driven"
+                            placeholder="e.g. 45000"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Mileage (km/l)</label>
+
+                        <input
+                            type="number"
+                            id="mileage"
+                            placeholder="e.g. 18.5"
+                            step="0.1"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Engine (CC)</label>
+
+                        <input
+                            type="number"
+                            id="engine"
+                            placeholder="e.g. 1197"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Max Power (bhp)</label>
+
+                        <input
+                            type="number"
+                            id="max_power"
+                            placeholder="e.g. 82"
+                            step="0.1"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Torque (Nm)</label>
+
+                        <input
+                            type="number"
+                            id="torque"
+                            placeholder="e.g. 113"
+                            step="0.1"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Seats</label>
+
+                        <select id="seats">
+
+                            <option value="">Select seats</option>
+                            <option value="2">2</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Fuel Type</label>
+
+                        <select id="fuel">
+
+                            <option value="">Select fuel</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="CNG">CNG</option>
+                            <option value="LPG">LPG</option>
+                            <option value="Electric">Electric</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Seller Type</label>
+
+                        <select id="seller_type">
+
+                            <option value="">Select seller</option>
+                            <option value="Individual">Individual</option>
+                            <option value="Dealer">Dealer</option>
+                            <option value="Trustmark Dealer">
+                                Trustmark Dealer
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Transmission</label>
+
+                        <select id="transmission">
+
+                            <option value="">Select transmission</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>Owner</label>
+
+                        <select id="owner">
+
+                            <option value="">Select owner</option>
+                            <option value="First Owner">
+                                First Owner
+                            </option>
+
+                            <option value="Second Owner">
+                                Second Owner
+                            </option>
+
+                            <option value="Third Owner">
+                                Third Owner
+                            </option>
+
+                            <option value="Fourth & Above Owner">
+                                Fourth & Above Owner
+                            </option>
+
+                            <option value="Test Drive Car">
+                                Test Drive Car
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="predict-btn"
+                    id="predictBtn"
+                    onclick="predictCar()"
+                >
+
+                    🔍 Predict Car Price
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading">
+
+        <div class="loader"></div>
+
+        <h3>Analyzing Your Car...</h3>
+
+        <p>
+            AI is identifying the vehicle and estimating its value.
+        </p>
+
+    </div>
+
+
+    <!-- Result -->
+    <section class="result-section" id="result">
+
+        <div class="result-card">
+
+            <div class="result-header">
+
+                <span>
+                    ✨ AI VALUATION RESULT
+                </span>
+
+            </div>
+
+
+            <div class="result-content">
+
+                <div class="result-image">
+
+                    <img id="resultCarImage">
+
+                </div>
+
+
+                <div class="result-info">
+
+                    <p class="result-label">
+                        DETECTED VEHICLE
+                    </p>
+
+                    <h2 id="resultModel">
+                        —
+                    </h2>
+
+                    <p class="brand" id="resultBrand">
+                        —
+                    </p>
+
+
+                    <div class="confidence-box">
+
+                        <div>
+
+                            <span>
+                                CNN Confidence
+                            </span>
+
+                            <strong id="confidence">
+                                —
+                            </strong>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Status
+                            </span>
+
+                            <strong id="confidenceStatus">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="price-box">
+
+                        <p>
+                            ESTIMATED USED CAR VALUE
+                        </p>
+
+                        <h1 id="resultPrice">
+                            ₹0
+                        </h1>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- About -->
+    <section class="about" id="about">
+
+        <div>
+
+            <p class="small-title">
+                ABOUT THE SYSTEM
+            </p>
+
+            <h2>
+                AI-Powered Vehicle Valuation
+            </h2>
+
+            <p>
+                This system combines Computer Vision and Machine
+                Learning to identify vehicles and estimate their
+                used-market value based on vehicle specifications.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 CarValue AI · AI-Based Used Car Price Prediction
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
