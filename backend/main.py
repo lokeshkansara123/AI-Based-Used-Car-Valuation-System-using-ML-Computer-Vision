@@ -18,9 +18,7 @@ import re
 from xgboost import XGBRegressor
 
 
-# ==========================================
-# FastAPI App
-# ==========================================
+
 
 app = FastAPI(
     title="AI Car Price Prediction API",
@@ -29,9 +27,7 @@ app = FastAPI(
 )
 
 
-# ==========================================
-# CORS
-# ==========================================
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -42,9 +38,7 @@ app.add_middleware(
 )
 
 
-# ==========================================
-# Device
-# ==========================================
+
 
 device = torch.device(
     "cuda" if torch.cuda.is_available() else "cpu"
@@ -53,9 +47,7 @@ device = torch.device(
 print("Using device:", device)
 
 
-# ==========================================
-# Load XGBoost Preprocessor
-# ==========================================
+
 
 preprocessor = joblib.load(
     BASE_DIR/"car_preprocessor.pkl"
@@ -64,9 +56,7 @@ preprocessor = joblib.load(
 print("Preprocessor loaded")
 
 
-# ==========================================
-# Load XGBoost Model
-# ==========================================
+
 
 xgb_model = XGBRegressor()
 
@@ -77,9 +67,7 @@ xgb_model.load_model(
 print("XGBoost model loaded")
 
 
-# ==========================================
-# Load CNN Model
-# ==========================================
+
 
 NUM_CLASSES = 196
 
@@ -103,9 +91,6 @@ cnn_model.eval()
 print("CNN model loaded")
 
 
-# ==========================================
-# Load Class Names
-# ==========================================
 
 class_names = joblib.load(
     BASE_DIR/"car_class_names.pkl"
@@ -114,9 +99,7 @@ class_names = joblib.load(
 print("Class names loaded")
 
 
-# ==========================================
-# Image Transform
-# ==========================================
+
 
 image_transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -130,9 +113,7 @@ image_transform = transforms.Compose([
 ])
 
 
-# ==========================================
-# Brand Mapping
-# ==========================================
+
 
 brand_mapping = {
     "Bmw": "BMW",
@@ -153,9 +134,7 @@ brand_mapping = {
 }
 
 
-# ==========================================
-# Health Check
-# ==========================================
+
 
 @app.get("/")
 def home():
@@ -166,9 +145,7 @@ def home():
     }
 
 
-# ==========================================
-# Prediction API
-# ==========================================
+
 
 @app.post("/predict")
 async def predict_car(
@@ -199,11 +176,9 @@ async def predict_car(
 
 ):
 
-    # ======================================
-    # INPUT VALIDATION
-    # ======================================
+  
 
-    # Dataset training year range
+    
     if year < 1983 or year > 2026:
      raise HTTPException(
         status_code=400,
@@ -246,9 +221,7 @@ async def predict_car(
         )
 
 
-    # ======================================
-    # READ IMAGE
-    # ======================================
+   
 
     try:
 
@@ -264,9 +237,7 @@ async def predict_car(
         )
 
 
-    # ======================================
-    # CNN PREDICTION
-    # ======================================
+    
 
     image_tensor = image_transform(img)
 
@@ -297,24 +268,14 @@ async def predict_car(
     confidence = confidence.item() * 100
 
 
-    # ======================================
-    # GET FULL CNN CLASS NAME
-    # ======================================
+    
 
     predicted_model_full = class_names[
         predicted_class
     ]
 
 
-    # ======================================
-    # REMOVE YEAR FROM MODEL NAME
-    # ======================================
-
-    # Example:
-    # "mclaren mp4-12c coupe 2012"
-    #
-    # becomes:
-    # "mclaren mp4-12c coupe"
+    
 
     predicted_model = re.sub(
         r"\s+\d{4}$",
@@ -323,9 +284,7 @@ async def predict_car(
     )
 
 
-    # ======================================
-    # EXTRACT BRAND
-    # ======================================
+  
 
     raw_brand = (
         predicted_model
@@ -340,9 +299,7 @@ async def predict_car(
     )
 
 
-    # ======================================
-    # FEATURE ENGINEERING
-    # ======================================
+  
 
     current_year = datetime.now().year
 
@@ -372,9 +329,7 @@ async def predict_car(
     )
 
 
-    # ======================================
-    # CREATE INPUT DATA
-    # ======================================
+   
 
     input_data = pd.DataFrame([{
 
@@ -413,34 +368,27 @@ async def predict_car(
     }])
 
 
-    # ======================================
-    # PREPROCESS INPUT
-    # ======================================
+  
 
     processed_input = preprocessor.transform(
         input_data
     )
 
 
-    # ======================================
-    # XGBOOST PRICE PREDICTION
-    # ======================================
+   
 
     predicted_price = xgb_model.predict(
         processed_input
     )[0]
 
 
-    # Prevent negative price
     predicted_price = max(
         0,
         predicted_price
     )
 
 
-    # ======================================
-    # CNN CONFIDENCE STATUS
-    # ======================================
+  
 
     if confidence >= 70:
 
@@ -455,9 +403,7 @@ async def predict_car(
         confidence_status = "Low"
 
 
-    # ======================================
-    # RESPONSE
-    # ======================================
+   
 
     return {
 
