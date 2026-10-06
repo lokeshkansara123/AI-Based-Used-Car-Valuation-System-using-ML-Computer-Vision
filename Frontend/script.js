@@ -1,13 +1,4 @@
-// ==========================================
-// API URL
-// ==========================================
-
 const API_URL = "http://127.0.0.1:8000/predict";
-
-
-// ==========================================
-// Image Preview
-// ==========================================
 
 const carImageInput =
     document.getElementById("carImage");
@@ -27,7 +18,7 @@ carImageInput.addEventListener("change", function () {
         return;
     }
 
-    // Check image type
+ 
     if (!file.type.startsWith("image/")) {
 
         alert("Please upload a valid image file.");
@@ -48,16 +39,7 @@ carImageInput.addEventListener("change", function () {
 
 });
 
-
-// ==========================================
-// Prediction
-// ==========================================
-
 async function predictCar() {
-
-    // ======================================
-    // Get Image
-    // ======================================
 
     const image =
         carImageInput.files[0];
@@ -70,10 +52,6 @@ async function predictCar() {
         return;
     }
 
-
-    // ======================================
-    // Get Form Values
-    // ======================================
 
     const year =
         document.getElementById("year").value;
@@ -108,11 +86,6 @@ async function predictCar() {
     const owner =
         document.getElementById("owner").value;
 
-
-    // ======================================
-    // Basic Validation
-    // ======================================
-
     if (
         !year ||
         !kmDriven ||
@@ -135,11 +108,6 @@ async function predictCar() {
     }
 
 
-    // ======================================
-    // Year Validation
-    // Dataset Range: 1983 - 2020
-    // ======================================
-
     const yearValue =
         Number(year);
 
@@ -155,11 +123,6 @@ async function predictCar() {
 
     return;
 }
-
-
-    // ======================================
-    // Numeric Validation
-    // ======================================
 
     const kmValue =
         Number(kmDriven);
@@ -197,24 +160,15 @@ async function predictCar() {
         return;
     }
 
-
-    // ======================================
-    // Create FormData
-    // ======================================
-
     const formData =
         new FormData();
-
-
-    // Image
+    
 
     formData.append(
         "image",
         image
     );
 
-
-    // Year
 
     formData.append(
         "year",
@@ -230,23 +184,15 @@ async function predictCar() {
     );
 
 
-    // Mileage
-
     formData.append(
         "mileage",
         mileage
     );
 
-
-    // Engine
-
     formData.append(
         "engine",
         engine
     );
-
-
-    // Max Power
 
     formData.append(
         "max_power",
@@ -254,57 +200,36 @@ async function predictCar() {
     );
 
 
-    // Torque
-
     formData.append(
         "torque",
         torque
     );
 
 
-    // Seats
-
     formData.append(
         "seats",
         seats
     );
-
-
-    // Fuel
 
     formData.append(
         "fuel",
         fuel
     );
 
-
-    // Seller Type
-
     formData.append(
         "seller_type",
         sellerType
     );
-
-
-    // Transmission
 
     formData.append(
         "transmission",
         transmission
     );
 
-
-    // Owner
-
     formData.append(
         "owner",
         owner
     );
-
-
-    // ======================================
-    // Loading
-    // ======================================
 
     const loading =
         document.getElementById("loading");
@@ -317,19 +242,11 @@ async function predictCar() {
 
     predictBtn.disabled = true;
 
-
-    // Change button text
-
     const originalButtonText =
         predictBtn.textContent;
 
     predictBtn.textContent =
         "Predicting...";
-
-
-    // ======================================
-    // API Request
-    // ======================================
 
     try {
 
@@ -342,11 +259,6 @@ async function predictCar() {
                 }
             );
 
-
-        // ==================================
-        // Get API Response
-        // ==================================
-
         const data =
             await response.json();
 
@@ -356,10 +268,6 @@ async function predictCar() {
             data
         );
 
-
-        // ==================================
-        // Handle API Error
-        // ==================================
 
         if (!response.ok) {
 
@@ -372,10 +280,6 @@ async function predictCar() {
             );
         }
 
-
-        // ==================================
-        // Display Result
-        // ==================================
 
         showResult(
             data,
@@ -399,19 +303,15 @@ async function predictCar() {
 
     } finally {
 
-        // Hide loading
-
+    
         loading.style.display =
             "none";
 
-
-        // Enable button
 
         predictBtn.disabled =
             false;
 
 
-        // Restore button text
 
         predictBtn.textContent =
             originalButtonText;
@@ -421,18 +321,11 @@ async function predictCar() {
 }
 
 
-// ==========================================
-// Show Result
-// ==========================================
-
 function showResult(
     data,
     imageFile
 ) {
 
-    // ======================================
-    // Get Result Elements
-    // ======================================
 
     const resultSection =
         document.getElementById("result");
@@ -474,51 +367,27 @@ function showResult(
         );
 
 
-    // ======================================
-    // Result Image
-    // ======================================
-
     resultImage.src =
         URL.createObjectURL(
             imageFile
         );
 
 
-    // ======================================
-    // Predicted Model
-    // ======================================
-
     resultModel.textContent =
         data.predicted_model;
 
-
-    // ======================================
-    // Brand
-    // ======================================
 
     resultBrand.textContent =
         data.brand;
 
 
-    // ======================================
-    // CNN Confidence
-    // ======================================
-
     confidence.textContent =
         data.cnn_confidence + "%";
 
 
-    // ======================================
-    // Confidence Status
-    // ======================================
-
     confidenceStatus.textContent =
         data.confidence_status;
 
-
-    // ======================================
-    // Predicted Price
-    // ======================================
 
     resultPrice.textContent =
         formatIndianCurrency(
@@ -526,17 +395,9 @@ function showResult(
         );
 
 
-    // ======================================
-    // Show Result
-    // ======================================
-
     resultSection.style.display =
         "block";
 
-
-    // ======================================
-    // Scroll To Result
-    // ======================================
 
     resultSection.scrollIntoView({
         behavior: "smooth",
@@ -545,10 +406,6 @@ function showResult(
 
 }
 
-
-// ==========================================
-// Indian Currency Formatter
-// ==========================================
 
 function formatIndianCurrency(
     value
